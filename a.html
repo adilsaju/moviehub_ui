@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>movielist</title>
+
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style type="text/css">
+		table { table-layout: fixed; }
+table td { word-wrap: break-word; }
+	
+
+  .jumbotron-billboard  .img{
+    margin-bottom: 0px;
+    opacity: 0.2;
+    color: #fff;
+    background: #000 url("b.jpg") top center no-repeat;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+}
+.jumbotron {
+  position:relative;
+  padding-top:50px;
+  padding-bottom:50px;
+}
+.jumbotron{
+   margin-top: 56px;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#excelDataTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#excelDataTable th, #excelDataTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#excelDataTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#excelDataTable tr.header, #excelDataTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+	</style>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+  <ul class="navbar-nav">
+    <li class="nav-item ">
+      <a class="nav-link" href="index.html">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="p.html">About</a>
+    </li>
+
+  </ul>
+</nav>
+
+
+<div class="jumbotron jumbotron-billboard">
+<div class="img"></div>
+<div class="container">
+  <h1>All Movies </h1>
+
+</div>
+</div>
+
+<div class="container">
+<p>You can Search Movies and Sort by click on column titles.</p>  
+
+<div >
+  <form class="form-inline" >
+    <input class="form-control mr-sm-2" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Movies by title">
+
+
+
+  </form>
+</div>
+
+  <table id="excelDataTable "  class="table table-hover table-sm">
+    <thead class="thead-light" id="th1">
+        <tr id="tr1">
+       
+<!--When a header is clicked, run the sortTable function, with a parameter,
+0 for sorting by names, 1 for sorting by country: -->
+
+
+        </tr>
+    </thead>
+
+    <tbody class="ass" id="tb1">
+
+    </tbody>
+  </table>
+
+</div>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $.getJSON('http://starlord.hackerearth.com/movieslisting',
+    function (json) {
+    	console.log(json);
+    	// obj = JSON.parse(json);
+         	var tr;
+            tr = $('#tr1');
+            
+            var thead;
+            thead = $('.thead-light');
+
+            var tbody;
+            tbody = $('.ass');
+            
+            tr.append("<th onclick='sortTable(0)'>" + "Title" + "</th>");
+            tr.append("<th onclick='sortTable(1)'>" + "Director" + "</th>");
+            tr.append("<th>" + "Actor" + "</th>");
+            tr.append("<th>" + "Actor" + "</th>");
+            tr.append("<th>" + "Genre "+ "</th>");
+            tr.append("<th>" + "Language" + "</th>");
+            tr.append("<th>" + "Country" + "</th>");
+            tr.append("<th>" + "Content Rating" + "</th>");
+            tr.append("<th>" + "Budget" + "</th>");
+            tr.append("<th onclick='sortTable(9)'>" + "Title Year" + "</th>");
+            tr.append("<th>" + "Keywords" + "</th>");
+            tr.append("<th>" + "IMDB"+ "</th>");
+            
+            $('#excelDataTable').append(thead);
+            $('#excelDataTable').append(tbody);
+            thead.append(tr);
+
+        for (var i = 0; i < json.length; i++) {
+        	tr = $('<tr/>');
+            tr.append("<td>" + json[i].movie_title + "</td>");
+            tr.append("<td>" + json[i].director_name + "</td>");
+            tr.append("<td>" + json[i].actor_1_name + "</td>");
+            tr.append("<td>" + json[i].actor_2_name + "</td>");
+            tr.append("<td>" + json[i].genres + "</td>");
+            tr.append("<td>" + json[i].language + "</td>");
+            tr.append("<td>" + json[i].country + "</td>");
+            tr.append("<td>" + json[i].content_rating + "</td>");
+            tr.append("<td>" + json[i].budget + "</td>");
+            tr.append("<td>" + json[i].title_year + "</td>");
+            tr.append("<td>" + json[i]. plot_keywords+ "</td>");
+            tr.append("<td>" + json[i]. movie_imdb_link+ "</td>");
+            
+            tbody.append(tr);
+        }
+    });
+});
+
+function myFunction() {
+  var input, filter, table, tbody,tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("excelDataTable");
+  tbody = document.getElementById("tb1");
+  
+  tr = tbody.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("excelDataTable");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc"; 
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    // rows = table.rows;
+        tbody = document.getElementById("tb1");
+    rows = tbody.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 0; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } 
+      else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+     if(n==9)
+      {
+        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+        shouldSwitch = true;
+        break;
+         }
+
+    }
+}
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++; 
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+</body>
+</html>

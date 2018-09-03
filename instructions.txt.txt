@@ -1,0 +1,5 @@
+1.Unzip the archive.
+
+2.Straight Open index.html
+
+3.Make sure to have internet connection.
